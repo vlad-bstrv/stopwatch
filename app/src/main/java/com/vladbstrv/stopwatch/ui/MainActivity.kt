@@ -5,27 +5,30 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import com.vladbstrv.stopwatch.R
+import com.vladbstrv.stopwatch.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel : MainViewModel by viewModel()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val textView = findViewById<TextView>(R.id.text_time)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         viewModel.data.observe(this) {
-            textView.text = it
+            binding.textTime.text = it
         }
 
-        findViewById<Button>(R.id.button_start).setOnClickListener {
+        binding.buttonStart.setOnClickListener {
             viewModel.start()
         }
-        findViewById<Button>(R.id.button_pause).setOnClickListener {
+        binding.buttonPause.setOnClickListener {
             viewModel.pause()
         }
-        findViewById<Button>(R.id.button_stop).setOnClickListener {
+        binding.buttonStop.setOnClickListener {
             viewModel.stop()
         }
     }
